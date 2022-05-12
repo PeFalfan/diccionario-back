@@ -1,14 +1,12 @@
 package com.diccionario.diccionario.repository.impl;
 
+import com.diccionario.diccionario.models.LogInModel;
 import com.diccionario.diccionario.models.UserModel;
 import com.diccionario.diccionario.repository.IUserRepository;
 import com.diccionario.diccionario.utils.DataBaseConnection;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +40,39 @@ public class UserRepositoryImpl implements IUserRepository {
             e.printStackTrace();
         }
         return users;
+    }
+
+    @Override
+    public LogInModel logIn(LogInModel logInIn) {
+
+        LogInModel logIn = new LogInModel();
+
+        String query = "SELECT email, contrasena FROM usuario WHERE email = ?";
+
+        try(PreparedStatement stmt = getConnection()
+                .prepareStatement(query)) {
+            stmt.setString(1,logInIn.getEmail());
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                logIn = mapLogIn(rs);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return logIn;
+    }
+
+    private LogInModel mapLogIn(ResultSet rs) throws SQLException {
+        LogInModel logIn = new LogInModel();
+
+        logIn.setEmail(rs.getString("email"));
+        logIn.setPassword(rs.getString("contrasena"));
+
+        return logIn;
     }
 
     public UserModel mapUser(ResultSet rs) throws SQLException {

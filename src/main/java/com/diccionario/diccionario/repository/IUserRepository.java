@@ -1,5 +1,6 @@
 package com.diccionario.diccionario.repository;
 
+import com.diccionario.diccionario.models.LogInModel;
 import com.diccionario.diccionario.models.UserModel;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface IUserRepository {
     public int editClient(UserModel user);
 
     public int createClient(UserModel user);
+
+    public LogInModel logIn(LogInModel log);
 }
