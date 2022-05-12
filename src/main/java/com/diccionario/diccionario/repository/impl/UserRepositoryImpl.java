@@ -120,6 +120,29 @@ public class UserRepositoryImpl implements IUserRepository {
     public int editClient(UserModel user) {
         int res = 0;
 
+        String query = "UPDATE usuario SET nombre= ?, email = ?, contrasena = ? , apellidos = ?, telefono = ? " +
+                "WHERE id = ?";
+
+        try (PreparedStatement stmt = getConnection()
+                .prepareStatement(query)) {
+            stmt.setString(1,user.getClientName());
+            stmt.setString(2,user.getClientEmail());
+            stmt.setString(3,user.getClientPassword());
+            stmt.setString(4,user.getClientLastNames());
+            stmt.setString(5,user.getClientPhone());
+            stmt.setInt(6, user.getIdUser());
+
+            res = stmt.executeUpdate();
+        } catch ( SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    @Override
+    public int updatePassword(UserModel user) {
+        int res = 0;
+
         String query = "UPDATE usuario SET contrasena = ? " +
                 "WHERE id = ?";
 

@@ -110,7 +110,7 @@ public class UserServiceImpl implements IUserService {
 
                 usuario.setClientPassword(newPass);
 
-                state = userRepo.editClient(usuario);
+                state = userRepo.updatePassword(usuario);
 
                 if (state == 1) {
                     String bodyMessage = "Buenas tardes " + usuario.getClientName() + "!\n" +

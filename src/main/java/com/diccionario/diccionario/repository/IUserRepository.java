@@ -15,6 +15,8 @@ public interface IUserRepository {
 
     public int editClient(UserModel user);
 
+    public int updatePassword(UserModel user);
+
     public int createClient(UserModel user);
 
     public LogInModel logIn(LogInModel log);
