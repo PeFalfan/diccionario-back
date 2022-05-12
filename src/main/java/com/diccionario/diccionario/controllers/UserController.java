@@ -41,4 +41,19 @@ public class UserController {
 
         return response;
     }
+
+    @GetMapping(value = "/recoverPassword{email}")
+    public @ResponseBody ResponseModel recoverPassword(@RequestParam(value = "email") String email){
+
+        ResponseModel response = new ResponseModel();
+
+        try {
+            response = userService.recoverPassword(email);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return response;
+
+    }
 }

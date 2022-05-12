@@ -6,21 +6,41 @@ public class UserModel implements Serializable {
 
 
     private static final long serialVersionUID = -6871345247575479631L;
+    private String clientName;
+    private String clientLastNames;
+    private String clientPhone;
+
     private int idUser;
-    private String email;
-    private String password;
-    private String name;
+    private String clientEmail;
+    private String clientPassword;
+
     private int userType;
 
     public UserModel() {
     }
 
-    public String getPassword() {
-        return password;
+    public String getClientLastNames() {
+        return clientLastNames;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setClientLastNames(String clientLastNames) {
+        this.clientLastNames = clientLastNames;
+    }
+
+    public String getClientPhone() {
+        return clientPhone;
+    }
+
+    public void setClientPhone(String clientPhone) {
+        this.clientPhone = clientPhone;
+    }
+
+    public String getClientPassword() {
+        return clientPassword;
+    }
+
+    public void setClientPassword(String clientPassword) {
+        this.clientPassword = clientPassword;
     }
 
     public int getIdUser() {
@@ -31,20 +51,20 @@ public class UserModel implements Serializable {
         this.idUser = idUser;
     }
 
-    public String getEmail() {
-        return email;
+    public String getClientEmail() {
+        return clientEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setClientEmail(String clientEmail) {
+        this.clientEmail = clientEmail;
     }
 
-    public String getName() {
-        return name;
+    public String getClientName() {
+        return clientName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public int getUserType() {

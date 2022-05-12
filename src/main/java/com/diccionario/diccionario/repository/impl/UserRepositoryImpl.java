@@ -61,6 +61,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
         }catch (SQLException e){
             e.printStackTrace();
+            logIn = null;
         }
 
         return logIn;
@@ -80,9 +81,9 @@ public class UserRepositoryImpl implements IUserRepository {
         UserModel user = new UserModel();
 
         user.setIdUser(rs.getInt("id"));
-        user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("contrasena"));
-        user.setName(rs.getString("nombre"));
+        user.setClientEmail(rs.getString("email"));
+        user.setClientPassword(rs.getString("contrasena"));
+        user.setClientName(rs.getString("nombre"));
         user.setUserType(rs.getInt("tipo_usuario_id_tipo"));
 
         return user;
@@ -90,7 +91,24 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public UserModel getClientByEmail(String email) {
-        return null;
+
+        UserModel user;
+
+        try(PreparedStatement stmt = getConnection()
+                .prepareStatement("SELECT * FROM usuario WHERE email = ?")) {
+            stmt.setString(1,email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()){
+                user = mapUser(rs);
+            }else{
+                user = null;
+            }
+        } catch ( SQLException e) {
+            user = null;
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override
@@ -100,7 +118,21 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public int editClient(UserModel user) {
-        return 0;
+        int res = 0;
+
+        String query = "UPDATE usuario SET contrasena = ? " +
+                "WHERE id = ?";
+
+        try (PreparedStatement stmt = getConnection()
+                .prepareStatement(query)) {
+            stmt.setString(1,user.getClientPassword());
+            stmt.setInt(2, user.getIdUser());
+
+            res = stmt.executeUpdate();
+        } catch ( SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     @Override
