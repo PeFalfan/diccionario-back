@@ -10,6 +10,7 @@ public class LessonModel implements Serializable {
 
     private static final long serialVersionUID = -7142475375308616051L;
     private int idLeccion;
+    private int estadoLeccion;
     private String tituloLeccion;
     private List<QuestionModel> preguntas;
 
@@ -18,6 +19,14 @@ public class LessonModel implements Serializable {
 
     public int getIdLeccion() {
         return idLeccion;
+    }
+
+    public int getEstadoLeccion() {
+        return estadoLeccion;
+    }
+
+    public void setEstadoLeccion(int estadoLeccion) {
+        this.estadoLeccion = estadoLeccion;
     }
 
     public void setIdLeccion(int idLeccion) {

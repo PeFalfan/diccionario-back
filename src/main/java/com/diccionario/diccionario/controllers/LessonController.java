@@ -1,11 +1,9 @@
 package com.diccionario.diccionario.controllers;
 
+import com.diccionario.diccionario.models.CommentaryModel;
 import com.diccionario.diccionario.models.ResponseModel;
 import com.diccionario.diccionario.services.impl.LessonServiceImpl;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -26,6 +24,32 @@ public class LessonController {
             e.printStackTrace();
         }
 
+        return response;
+    }
+
+    @GetMapping(value = "/getResponses")
+    public @ResponseBody ResponseModel getResponses(){
+
+        ResponseModel response = new ResponseModel();
+
+        try {
+            response = lessonService.getAnswers();
+        }catch (Exception e ) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    @PostMapping(value = "/addCommentary")
+    public @ResponseBody ResponseModel addCommentary(@RequestBody CommentaryModel comment){
+        ResponseModel response = new ResponseModel();
+        try {
+
+            response = lessonService.addComment(comment);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return response;
     }
 }

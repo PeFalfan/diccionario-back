@@ -1,5 +1,6 @@
 package com.diccionario.diccionario.controllers;
 
+import com.diccionario.diccionario.models.CommentaryModel;
 import com.diccionario.diccionario.models.LogInModel;
 import com.diccionario.diccionario.models.ResponseModel;
 import com.diccionario.diccionario.services.impl.UserServiceImpl;
