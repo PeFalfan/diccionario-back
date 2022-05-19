@@ -63,4 +63,21 @@ public class LessonServiceImpl implements ILessonService {
         }
         return response;
     }
+
+    public ResponseModel lastAproved(String email) {
+        ResponseModel response = new ResponseModel();
+
+        try {
+            response.setData(lessonRepo.lastAprovedLesson(email));
+            response.setMessageResponse("Solicitud realizada.");
+            response.setError(null);
+        } catch (Exception e) {
+            response.setData(null);
+            response.setMessageResponse("Error al solicitar datos");
+            response.setError(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return response;
+    }
 }

@@ -52,4 +52,17 @@ public class LessonController {
         }
         return response;
     }
+
+    @GetMapping(value = "/lastAproved{email}")
+    public @ResponseBody ResponseModel lastAproved(@RequestParam(value = "email") String email){
+        ResponseModel response = new ResponseModel();
+
+        try {
+            response = lessonService.lastAproved(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
 }

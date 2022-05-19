@@ -52,6 +52,42 @@ public class LessonRepositoryImpl implements ILessonRepository {
         return objAnswer;
     }
 
+    public int lastAprovedLesson(String email){
+        int response = 0;
+
+        List<LessonModel> lessons = new ArrayList<>();
+
+        LessonModel lesson = new LessonModel();
+
+        String query = "SELECT le.id_leccion, le.descripcion_leccion, pr.id_pregunta ,pr.pregunta, pr.diccionario_palabra, uhl.Estado_leccion_idEstado_leccion\n" +
+                "FROM usuario us JOIN usuario_has_leccion uhl on us.id = uhl.Usuario_id JOIN leccion le on uhl.leccion_id_leccion = le.id_leccion LEFT JOIN pregunta pr on le.id_leccion = pr.leccion_id_leccion\n" +
+                "WHERE us.email = ?";
+
+        try (PreparedStatement stmt = getConnection()
+                .prepareStatement(query)) {
+            stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while ( rs.next()) {
+                lesson = mapLesson(rs);
+                lessons.add(lesson);
+            }
+
+        } catch ( SQLException e) {
+            e.printStackTrace();
+        }
+
+        response = lessons.get(lessons.size() - 1).getIdLeccion();
+
+        for (LessonModel l: lessons) {
+            if (l.getEstadoLeccion() == 2){ // state 2 is completed
+                response = l.getIdLeccion();
+            }
+        }
+
+        return response;
+    }
     @Override
     public List<LessonModel> getLessons() {
 
@@ -59,8 +95,9 @@ public class LessonRepositoryImpl implements ILessonRepository {
 
         LessonModel lesson = new LessonModel();
 
-        String query = "SELECT le.id_leccion,le.Estado_leccion_idEstado_leccion, le.descripcion_leccion, pr.id_pregunta ,pr.pregunta, pr.diccionario_palabra\n" +
-                "FROM leccion as le JOIN pregunta pr on le.id_leccion = pr.leccion_id_leccion";
+        String query = "SELECT le.id_leccion, le.descripcion_leccion, pr.id_pregunta ,pr.pregunta, pr.diccionario_palabra, uhl.Estado_leccion_idEstado_leccion\n" +
+                "FROM usuario us JOIN usuario_has_leccion uhl on us.id = uhl.Usuario_id JOIN leccion le on uhl.leccion_id_leccion = le.id_leccion " +
+                "LEFT JOIN pregunta pr on le.id_leccion = pr.leccion_id_leccion";
 
         try (Statement stmt = getConnection().createStatement();
 
