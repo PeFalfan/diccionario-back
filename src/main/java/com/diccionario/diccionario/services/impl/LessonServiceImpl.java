@@ -64,11 +64,11 @@ public class LessonServiceImpl implements ILessonService {
         return response;
     }
 
-    public ResponseModel lastAproved(String email) {
+    public ResponseModel lastApproved(String email) {
         ResponseModel response = new ResponseModel();
 
         try {
-            response.setData(lessonRepo.lastAprovedLesson(email));
+            response.setData(lessonRepo.lastApprovedLesson(email));
             response.setMessageResponse("Solicitud realizada.");
             response.setError(null);
         } catch (Exception e) {

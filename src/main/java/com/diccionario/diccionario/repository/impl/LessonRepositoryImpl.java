@@ -52,7 +52,7 @@ public class LessonRepositoryImpl implements ILessonRepository {
         return objAnswer;
     }
 
-    public int lastAprovedLesson(String email){
+    public int lastApprovedLesson(String email){
         int response = 0;
 
         List<LessonModel> lessons = new ArrayList<>();
@@ -77,8 +77,6 @@ public class LessonRepositoryImpl implements ILessonRepository {
         } catch ( SQLException e) {
             e.printStackTrace();
         }
-
-        response = lessons.get(lessons.size() - 1).getIdLeccion();
 
         for (LessonModel l: lessons) {
             if (l.getEstadoLeccion() == 2){ // state 2 is completed
