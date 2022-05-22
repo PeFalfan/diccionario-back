@@ -83,7 +83,22 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ResponseModel createClient(UserModel user) {
-        return null;
+        ResponseModel response = new ResponseModel();
+        try {
+            int res = userRepo.createClient(user);
+            response.setData(res);
+            switch (res){
+                case 1:response.setMessageResponse("Usuario creado correctamente.");break;
+                case 0:response.setMessageResponse("Usuario ya existe en la BD");break;
+                case -1: response.setMessageResponse("Error de servicio al registrar cliente.");break;
+            }
+            response.setError(null);
+        }catch (Exception e){
+            response.setData(null);
+            response.setError(e.getMessage());
+            response.setMessageResponse("Error de servicio al registrar cliente");
+        }
+        return response;
     }
 
     public ResponseModel recoverPassword(String email) {

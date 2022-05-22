@@ -160,6 +160,20 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public int createClient(UserModel user) {
-        return 0;
+        int res = 0;
+        String query = "INSERT INTO usuario VALUES (0, ?, ?, ?, ?)";
+        try(PreparedStatement stmt = getConnection()
+                .prepareStatement(query)) {
+            stmt.setString(1,user.getClientEmail());
+            stmt.setString(2, user.getClientPassword());
+            stmt.setString(3,user.getClientName());
+            stmt.setInt(4, user.getUserType());
+
+            res = stmt.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+            res = -1;
+        }
+        return res;
     }
 }

@@ -3,6 +3,7 @@ package com.diccionario.diccionario.controllers;
 import com.diccionario.diccionario.models.CommentaryModel;
 import com.diccionario.diccionario.models.LogInModel;
 import com.diccionario.diccionario.models.ResponseModel;
+import com.diccionario.diccionario.models.UserModel;
 import com.diccionario.diccionario.services.impl.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,5 +57,16 @@ public class UserController {
 
         return response;
 
+    }
+
+    @PostMapping(value = "/createUser")
+    public @ResponseBody ResponseModel createUser(@RequestBody UserModel newUser){
+        ResponseModel response = new ResponseModel();
+        try{
+            response = userService.createClient(newUser);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return response;
     }
 }
