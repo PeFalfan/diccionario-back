@@ -1,11 +1,9 @@
 package com.diccionario.diccionario.controllers;
 
 import com.diccionario.diccionario.models.ResponseModel;
+import com.diccionario.diccionario.models.TermModel;
 import com.diccionario.diccionario.services.impl.DictionaryServiceImpl;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -28,6 +26,17 @@ public class DictionaryController {
             e.printStackTrace();
         }
 
+        return response;
+    }
+
+    @PostMapping(value = "/addTerm")
+    public @ResponseBody ResponseModel addTerm(@RequestBody TermModel term){
+        ResponseModel response = new ResponseModel();
+        try{
+            response = dictionaryService.addTerm(term);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return response;
     }
 }

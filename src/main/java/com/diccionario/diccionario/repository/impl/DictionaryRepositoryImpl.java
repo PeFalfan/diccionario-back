@@ -5,10 +5,7 @@ import com.diccionario.diccionario.models.TermModel;
 import com.diccionario.diccionario.repository.IDictionaryRepository;
 import com.diccionario.diccionario.utils.DataBaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +50,20 @@ public class DictionaryRepositoryImpl implements IDictionaryRepository {
     }
 
     @Override
-    public void addTerm(TermModel term) {
+    public int addTerm(TermModel term) {
 
+        int res = 0;
+        String query = "INSERT INTO diccionario VALUES( ?, ?)";
+        try (PreparedStatement stmt = getConnection()
+                .prepareStatement(query)) {
+            stmt.setString(1,term.getWord());
+            stmt.setString(2, term.getTraslation());
+
+            res = stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            res = -1;
+        }
+        return res;
     }
 }

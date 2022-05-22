@@ -7,5 +7,5 @@ public interface IDictionaryRepository {
 
     public DictionaryModel getDictionary();
 
-    public void addTerm(TermModel term);
+    public int addTerm(TermModel term);
 }

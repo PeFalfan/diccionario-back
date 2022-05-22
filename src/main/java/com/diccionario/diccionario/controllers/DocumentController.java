@@ -21,8 +21,8 @@ public class DocumentController {
         return response;
     }
 
-    @PostMapping(value = "/updateFile")
-    public @ResponseBody ResponseModel updateFile(@RequestBody DocumentModel doc){
+    @PostMapping(value = "/uploadFile")
+    public @ResponseBody ResponseModel uploadFile(@RequestBody DocumentModel doc){
         ResponseModel response = new ResponseModel();
         try{
             response = docService.uploadDocument(doc);
