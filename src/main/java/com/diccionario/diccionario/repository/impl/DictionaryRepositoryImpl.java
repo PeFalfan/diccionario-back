@@ -45,6 +45,7 @@ public class DictionaryRepositoryImpl implements IDictionaryRepository {
 
         term.setWord(rs.getString("palabra"));
         term.setTraslation(rs.getString("significado"));
+        term.setPronunciation(rs.getString("pronunciacion"));
 
         return  term;
     }
@@ -53,11 +54,12 @@ public class DictionaryRepositoryImpl implements IDictionaryRepository {
     public int addTerm(TermModel term) {
 
         int res = 0;
-        String query = "INSERT INTO diccionario VALUES( ?, ?)";
+        String query = "INSERT INTO diccionario VALUES( ?, ?, ?)";
         try (PreparedStatement stmt = getConnection()
                 .prepareStatement(query)) {
             stmt.setString(1,term.getWord());
             stmt.setString(2, term.getTraslation());
+            stmt.setString(3, term.getPronunciation());
 
             res = stmt.executeUpdate();
         } catch (SQLException e) {
