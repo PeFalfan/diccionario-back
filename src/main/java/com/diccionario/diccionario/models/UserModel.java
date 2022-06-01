@@ -9,11 +9,9 @@ public class UserModel implements Serializable {
     private String clientName;
     private String clientLastNames;
     private String clientPhone;
-
     private int idUser;
     private String clientEmail;
     private String clientPassword;
-
     private int userType;
 
     public UserModel() {

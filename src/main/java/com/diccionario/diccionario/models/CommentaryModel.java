@@ -3,6 +3,7 @@ package com.diccionario.diccionario.models;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @EntityScan
 public class CommentaryModel implements Serializable {
@@ -12,8 +13,17 @@ public class CommentaryModel implements Serializable {
     private String commentary;
     private int idLesson;
     private int idUser;
+    private Date creationDate;
 
     public CommentaryModel() {
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public int getIdCommentary() {

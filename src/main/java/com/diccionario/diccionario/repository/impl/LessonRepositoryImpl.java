@@ -9,6 +9,7 @@ import com.diccionario.diccionario.utils.DataBaseConnection;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,12 +135,14 @@ public class LessonRepositoryImpl implements ILessonRepository {
 
     public int addCommentary(CommentaryModel comment){
         int res = 0;
-        String query = "INSERT INTO comentario VALUES (0, ?, ?, ?)";
+        Date today = Date.valueOf(LocalDate.now());
+        String query = "INSERT INTO comentario VALUES (0, ?, ?, ?, ?)";
         try (PreparedStatement stmt = getConnection()
                 .prepareStatement(query)) {
             stmt.setString(1,comment.getCommentary());
             stmt.setInt(2,comment.getIdLesson());
             stmt.setInt(3,comment.getIdUser());
+            stmt.setDate(4, today);
 
             res = stmt.executeUpdate();
         } catch (SQLException e){

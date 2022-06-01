@@ -80,10 +80,12 @@ public class UserRepositoryImpl implements IUserRepository {
 
         UserModel user = new UserModel();
 
+        user.setClientName(rs.getString("nombre"));
+        user.setClientLastNames(rs.getString("apellidos"));
+        user.setClientPhone(rs.getString("celular"));
         user.setIdUser(rs.getInt("id"));
         user.setClientEmail(rs.getString("email"));
         user.setClientPassword(rs.getString("contrasena"));
-        user.setClientName(rs.getString("nombre"));
         user.setUserType(rs.getInt("tipo_usuario_id_tipo"));
 
         return user;
@@ -120,7 +122,7 @@ public class UserRepositoryImpl implements IUserRepository {
     public int editClient(UserModel user) {
         int res = 0;
 
-        String query = "UPDATE usuario SET nombre= ?, email = ?, contrasena = ? , apellidos = ?, telefono = ? " +
+        String query = "UPDATE usuario SET nombre= ?, email = ?, contrasena = ? , apellidos = ?, celular = ?" +
                 "WHERE id = ?";
 
         try (PreparedStatement stmt = getConnection()
@@ -161,13 +163,15 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public int createClient(UserModel user) {
         int res = 0;
-        String query = "INSERT INTO usuario VALUES (0, ?, ?, ?, ?)";
+        String query = "INSERT INTO usuario VALUES (0, ?, ?, ?, ?, ?, ?)";
         try(PreparedStatement stmt = getConnection()
                 .prepareStatement(query)) {
             stmt.setString(1,user.getClientEmail());
             stmt.setString(2, user.getClientPassword());
             stmt.setString(3,user.getClientName());
-            stmt.setInt(4, user.getUserType());
+            stmt.setString(4, user.getClientLastNames());
+            stmt.setString(5, user.getClientPhone());
+            stmt.setInt(6, user.getUserType());
 
             res = stmt.executeUpdate();
         }catch (SQLException e){

@@ -45,12 +45,12 @@ public class UserServiceImpl implements IUserService {
 
             if (log.getPassword().equals(saveLogIn.getPassword())){
                 response.setMessageResponse("Validacion de usuario correcta");
-                response.setData(1);
+                response.setData(userRepo.getClientByEmail(log.getEmail()));
                 response.setError(null);
             } else{
                 response.setError("Credenciales incorrectas");
                 response.setMessageResponse("Error en credenciales");
-                response.setData(0);
+                response.setData(null);
             }
 
 
