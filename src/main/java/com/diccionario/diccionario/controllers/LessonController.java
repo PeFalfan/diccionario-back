@@ -65,4 +65,15 @@ public class LessonController {
 
         return response;
     }
+
+    @GetMapping(value = "/getResume")
+    public @ResponseBody ResponseModel getResume(){
+        ResponseModel response = new ResponseModel();
+        try{
+            response = lessonService.getResume();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return response;
+    }
 }

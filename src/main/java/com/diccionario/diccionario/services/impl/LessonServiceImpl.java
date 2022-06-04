@@ -1,13 +1,17 @@
 package com.diccionario.diccionario.services.impl;
 
-import com.diccionario.diccionario.models.CommentaryModel;
-import com.diccionario.diccionario.models.ResponseModel;
+import com.diccionario.diccionario.models.*;
 import com.diccionario.diccionario.repository.impl.LessonRepositoryImpl;
+import com.diccionario.diccionario.repository.impl.UserRepositoryImpl;
 import com.diccionario.diccionario.services.ILessonService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LessonServiceImpl implements ILessonService {
 
     LessonRepositoryImpl lessonRepo = new LessonRepositoryImpl();
+    UserRepositoryImpl userRepo = new UserRepositoryImpl();
 
     @Override
     public ResponseModel getLessons() {
@@ -79,5 +83,59 @@ public class LessonServiceImpl implements ILessonService {
         }
 
         return response;
+    }
+
+    public ResponseModel getResume(){
+        ResponseModel response = new ResponseModel();
+        List<StudentResumeModel> resume = new ArrayList<>();
+        List<LessonModel> lessons = new ArrayList<>();
+        List<UserModel> users = new ArrayList<>();
+
+        try{
+
+            // First, we gather all the students
+            users = userRepo.getAllCLients();
+
+            // Second the lessons
+            lessons = lessonRepo.getLessons();
+
+            // now, we start creating the resume object, by each student
+
+            for (UserModel user : users) {
+                if (user.getUserType() == 2){
+                    StudentResumeModel student = new StudentResumeModel();
+                    student.setStudentName(user.getClientName());
+                    int lastApproved = lessonRepo.lastApprovedLesson(user.getClientEmail());
+                    String lessonRange = String.valueOf(lastApproved);
+                    lessonRange += "/" + lessons.size();
+
+                    student.setLessons(lessonRange);
+
+                    student.setPercentage(calculatePercentage(lessons.size(), lastApproved ));
+
+                    resume.add(student);
+                }
+            }
+
+            response.setData(resume);
+            response.setMessageResponse("Datos cargados correctamente.");
+            response.setError(null);
+
+        }catch (Exception e){
+            response.setData(null);
+            response.setError(e.getMessage());
+            response.setMessageResponse("Error al cargar data de estudiantes.");
+            e.printStackTrace();
+
+        }
+        return response;
+    }
+
+    public String calculatePercentage(int lessonsQuantity, int approvedLessons){
+        double percentage = 0.0;
+
+        percentage = (double) (( approvedLessons * 100 )/ lessonsQuantity);
+
+        return String.format("%.1f", percentage);
     }
 }
