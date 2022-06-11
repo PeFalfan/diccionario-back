@@ -4,6 +4,7 @@ import com.diccionario.diccionario.models.*;
 import com.diccionario.diccionario.repository.impl.LessonRepositoryImpl;
 import com.diccionario.diccionario.repository.impl.UserRepositoryImpl;
 import com.diccionario.diccionario.services.ILessonService;
+import com.diccionario.diccionario.utils.EmailCommunication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +51,41 @@ public class LessonServiceImpl implements ILessonService {
     }
 
     public ResponseModel addComment(CommentaryModel comment){
+
         ResponseModel response = new ResponseModel();
+
+        UserModel profe = new UserModel();
+
+        UserModel alumno = new UserModel();
+
+        List<UserModel> users = new ArrayList<>();
+
         try{
             response.setData(lessonRepo.addCommentary(comment));
             if(response.getData().equals(1)){
+
+                // now we send the mailt to the teacher
+                // primero, cargamos a los usuarios, y ya teniendolos, podremos obtener la info del profe, y el alumno que hizo el comentario.
+
+                users = userRepo.getAllCLients();
+
+                for (UserModel us : users) {
+                    if (us.getUserType() == 1){
+                        profe = us;
+                    }
+
+                    if (us.getIdUser() == comment.getIdUser()){
+                        alumno = us;
+                    }
+                }
+
+                String bodyMessage = "Estimado  " + profe.getClientName() + ".                                                       " + comment.getCreationDate() + "\n" +
+                                     "\nMediante el presente documento, yo " + alumno.getClientName() + ", necesito aclarar o resolver lo siguiente: \n"+
+                                     comment.getCommentary() + "\n";
+
+
+                EmailCommunication.sendMail(profe.getClientEmail(), "Comentario Alumno " + comment.getCreationDate(),bodyMessage);
+
                 response.setMessageResponse("Comentario agregado correctamente");
                 response.setError(null);
             } else{

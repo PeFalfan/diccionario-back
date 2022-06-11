@@ -47,7 +47,7 @@ public class LessonController {
 
             response = lessonService.addComment(comment);
 
-        }catch (Exception e){
+        }catch (Exception e) {
             e.printStackTrace();
         }
         return response;

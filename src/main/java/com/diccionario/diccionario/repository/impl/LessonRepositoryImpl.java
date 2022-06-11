@@ -1,9 +1,6 @@
 package com.diccionario.diccionario.repository.impl;
 
-import com.diccionario.diccionario.models.CommentaryModel;
-import com.diccionario.diccionario.models.LessonModel;
-import com.diccionario.diccionario.models.QuestionModel;
-import com.diccionario.diccionario.models.UserAnswerModel;
+import com.diccionario.diccionario.models.*;
 import com.diccionario.diccionario.repository.ILessonRepository;
 import com.diccionario.diccionario.utils.DataBaseConnection;
 import org.springframework.stereotype.Repository;
@@ -145,6 +142,7 @@ public class LessonRepositoryImpl implements ILessonRepository {
             stmt.setDate(4, today);
 
             res = stmt.executeUpdate();
+
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -168,4 +166,5 @@ public class LessonRepositoryImpl implements ILessonRepository {
 
         return lesson;
     }
+
 }

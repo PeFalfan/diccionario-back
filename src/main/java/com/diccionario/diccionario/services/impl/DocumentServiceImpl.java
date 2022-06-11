@@ -40,10 +40,10 @@ public class DocumentServiceImpl implements IDocumentService {
             int res = docRepo.uploadDocument(doc);
             response.setData(res);
             response.setError(null);
-            switch (res){
-                case 1: response.setMessageResponse("Documento almacenado correctamente.");break;
-                case 0: response.setMessageResponse("Documento no se almacenó en la BD.");break;
-                case -1: response.setMessageResponse("Error en servicio al almacenar.");break;
+            switch (res) {
+                case 1 -> response.setMessageResponse("Documento almacenado correctamente.");
+                case 0 -> response.setMessageResponse("Documento no se almacenó en la BD.");
+                case -1 -> response.setMessageResponse("Error en servicio al almacenar.");
             }
 
         } catch (Exception e){
