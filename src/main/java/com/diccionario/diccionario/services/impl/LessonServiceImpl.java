@@ -170,4 +170,43 @@ public class LessonServiceImpl implements ILessonService {
 
         return String.format("%.1f", percentage);
     }
+
+    public ResponseModel getLessonsResume(int id){
+        ResponseModel response = new ResponseModel();
+
+        try{
+
+            response.setData(lessonRepo.getResumeByClient(id));
+            response.setMessageResponse("Servicio OK");
+            response.setError(null);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setData(null);
+            response.setMessageResponse("Error al consultar servicio");
+            response.setError(e.getMessage());
+        }
+
+        return response;
+    }
+
+    public ResponseModel approveLesson(int userId, int lessonId){
+        ResponseModel response = new ResponseModel();
+
+        try{
+
+            response.setData(lessonRepo.approveLesson(userId, lessonId));
+            response.setMessageResponse("Leccion actualizada!");
+            response.setError(null);
+
+        }catch (Exception e){
+
+            response.setData(null);
+            response.setMessageResponse("Error de servicio!");
+            response.setError(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return response;
+    }
 }

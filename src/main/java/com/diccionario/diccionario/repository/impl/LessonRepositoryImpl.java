@@ -167,4 +167,53 @@ public class LessonRepositoryImpl implements ILessonRepository {
         return lesson;
     }
 
+    public List<LessonsResume> getResumeByClient(int idUser) throws SQLException{
+        List<LessonsResume> resumes = new ArrayList<>();
+
+        String query = "SELECT * FROM usuario_has_leccion WHERE usuario_id = ?";
+
+        try ( PreparedStatement stmt = getConnection().prepareStatement(query)) {
+            stmt.setInt(1, idUser);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                resumes.add(mapResume(rs));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return resumes;
+    }
+
+    public LessonsResume mapResume(ResultSet rs) throws SQLException {
+
+        LessonsResume resume = new LessonsResume();
+
+        resume.setIdLesson(rs.getInt("leccion_id_leccion"));
+        resume.setUserId(rs.getInt("Usuario_id"));
+        resume.setStateLesson(rs.getInt("Estado_leccion_idEstado_leccion"));
+
+        return resume;
+
+    }
+
+    public int approveLesson(int userId, int lessonId){
+        int response = 0;
+
+        String query = "UPDATE usuario_has_leccion SET Estado_leccion_idEstado_leccion = 2 WHERE Usuario_id = ? AND leccion_id_leccion = ?";
+
+        try (PreparedStatement stmt = getConnection()
+                .prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, lessonId);
+
+            response = stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return response;
+    }
+
 }

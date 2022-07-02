@@ -76,4 +76,30 @@ public class LessonController {
         }
         return response;
     }
+
+    @GetMapping(value = "/getLessonResume{userId}")
+    public @ResponseBody ResponseModel getLessonResumeByUser(int userId){
+        ResponseModel response = new ResponseModel();
+
+        try{
+            response = lessonService.getLessonsResume(userId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    @GetMapping(value = "/approveLesson{userId}{lessonId}")
+    public @ResponseBody ResponseModel approveLesson(int userId, int lessonId){
+        ResponseModel response = new ResponseModel();
+
+        try{
+            response = lessonService.approveLesson(userId, lessonId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
 }
