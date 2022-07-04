@@ -31,4 +31,15 @@ public class DocumentController {
         }
         return response;
     }
+
+    @GetMapping(value = "/sendDocumentsBy{idLesson}{email}")
+    public @ResponseBody ResponseModel getDocumentsByLesson(@RequestParam(value = "idLesson") int idLesson, @RequestParam(value = "email") String email){
+        ResponseModel response = new ResponseModel();
+        try {
+            response = docService.getDocumentsByLessonAndUser(idLesson, email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
 }

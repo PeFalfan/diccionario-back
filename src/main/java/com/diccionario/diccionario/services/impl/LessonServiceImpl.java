@@ -84,7 +84,7 @@ public class LessonServiceImpl implements ILessonService {
                                      comment.getCommentary() + "\n";
 
 
-                EmailCommunication.sendMail(profe.getClientEmail(), "Comentario Alumno " + comment.getCreationDate(),bodyMessage);
+                EmailCommunication.sendMail(profe.getClientEmail(), "Comentario Alumno " + comment.getCreationDate(),bodyMessage, new ArrayList<>());
 
                 response.setMessageResponse("Comentario agregado correctamente");
                 response.setError(null);

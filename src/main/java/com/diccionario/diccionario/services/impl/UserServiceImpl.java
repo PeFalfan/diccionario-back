@@ -9,6 +9,8 @@ import com.diccionario.diccionario.utils.EmailCommunication;
 import com.diccionario.diccionario.utils.PasswordEncryption;
 import com.diccionario.diccionario.utils.PasswordGenerator;
 
+import java.util.ArrayList;
+
 public class UserServiceImpl implements IUserService {
 
     PasswordEncryption pe = new PasswordEncryption();
@@ -135,7 +137,7 @@ public class UserServiceImpl implements IUserService {
                             "Atte.:\n" +
                             "Inserte nombre de universidad ficticia.";
 
-                    emailStatus = EmailCommunication.sendMail(email, "Recuperacion de Contraseña", bodyMessage);
+                    emailStatus = EmailCommunication.sendMail(email, "Recuperacion de Contraseña", bodyMessage, new ArrayList<>());
                 }
             }
 
